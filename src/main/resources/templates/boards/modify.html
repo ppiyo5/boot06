@@ -73,6 +73,25 @@ layout:decorate="~{/layout/layout1}">
 	
 	<script th:inline="javascript">
 	
+	$(document).ready(function() {
+		var formObj = $("#f1");
+		
+		$(".delbtn").click(function() {
+			formObj.attr("action", "delete");
+			formObj.attr("method", "post");
+			
+			formObj.submit();
+		});
+		
+		$(".modbtn").click(function() {
+			//attr("속성", "추가할 속성값")
+			formObj.attr("action", "modify");
+			formObj.attr("method", "post");
+			
+			formObj.submit();
+		});
+	});
+	
 	</script>
 	</th:block>
 	

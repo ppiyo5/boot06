@@ -17,6 +17,7 @@ import org.zerock.vo.PageMaker;
 import org.zerock.vo.PageVO;
 
 import lombok.extern.java.Log;
+import net.bytebuddy.asm.Advice.Origin;
 
 @Controller
 @RequestMapping("/boards/")
@@ -74,6 +75,45 @@ public class WebBoardController {
 	public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model) {
 		log.info("MODIFY BNO: "+bno);
 		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+	}
+	
+	@PostMapping("/delete")
+	public String delete(Long bno, PageVO vo, RedirectAttributes rttr) {
+		log.info("DELETE BNO: "+bno);
+		repo.deleteById(bno);
+		rttr.addFlashAttribute("msg", "delete");
+		
+		//페이징과 검색했던 결과로 이동하는 경우
+		rttr.addFlashAttribute("page", vo.getPage());
+		rttr.addFlashAttribute("size", vo.getSize());
+		rttr.addFlashAttribute("type", vo.getType());
+		rttr.addFlashAttribute("keyword", vo.getKeyword());
+		
+		return "redirect:/boards/list";
+	}
+	
+	@PostMapping("/modify")
+	public String modifyPost(WebBoard board, PageVO vo, RedirectAttributes rttr) {
+		log.info("Modify WebBoard: " + board);
+		
+		repo.findById(board.getBno()).ifPresent(origin -> {
+			
+			origin.setTitle(board.getTitle());
+			origin.setContent(board.getContent());
+			
+			repo.save(origin);
+			rttr.addFlashAttribute("msg", "modify");
+			rttr.addFlashAttribute("bno", origin.getBno());
+			
+		});
+		
+		//페이징과 검색했던 결과로 이동하는 경우
+		rttr.addFlashAttribute("page", vo.getPage());
+		rttr.addFlashAttribute("size", vo.getSize());
+		rttr.addFlashAttribute("type", vo.getType());
+		rttr.addFlashAttribute("keyword", vo.getKeyword());
+		
+		return "redirect:/boards/list";
 	}
 
 }
