@@ -13,6 +13,9 @@ layout:decorate="~{/layout/layout1}">
 	<div layout:fragment="content">
 	
 		<div class="panel-heading">List Page</div>
+		<div class="panel-body pull-right">
+		<h3><a class="label label-default" th:href="@{register}">Register</a></h3>
+		</div>
 		<div class="panel-body">
 			<p>[[${result}]]</p>
 			<!-- th:with를 이용해서 result라는 변수가 PageMaker 안의 result라는 것을 명시  -->
@@ -102,6 +105,7 @@ layout:decorate="~{/layout/layout1}">
 			formObj.submit();
 		});
 		
+		//검색버튼
 		$("#searchBtn").click(function(e) {
 			e.preventDefault();
 			
@@ -116,8 +120,35 @@ layout:decorate="~{/layout/layout1}">
 			formObj.submit();
 		});
 		
+		//게시물 상세보기(제목클릭)
+		$(".boardLink").click(function(e) {
+			
+			//a 태그의 기본 동작 막기
+			e.preventDefault();
+			
+			var boardNo = $(this).attr('href');
+			
+			//form 태그의 action 링크 변경
+			formObj.prop("action", [[@{'/boards/view'}]]);
+			formObj.append("<input type='hidden' name='bno' value='" + boardNo + "'>");
+			//alert("bno: " +boardNo);
+			
+			formObj.submit();
+		});
+		
 		
 	});
+	
+	$(window).on('load', function() {
+		var msg = [[${msg}]];
+		
+		if(msg == 'success') {
+			alert('글이 등록되었습니다.');
+			
+			var stateObj = {msg: ""};
+		}
+	});
+	
 	
 	</script>
 	
