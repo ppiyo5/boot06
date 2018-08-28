@@ -69,5 +69,11 @@ public class WebBoardController {
 		log.info("BNO: "+bno);
 		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
 	}
+	
+	@GetMapping("/modify")
+	public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model) {
+		log.info("MODIFY BNO: "+bno);
+		repo.findById(bno).ifPresent(board -> model.addAttribute("vo", board));
+	}
 
 }
