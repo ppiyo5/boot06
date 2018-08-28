@@ -17,8 +17,8 @@ public class PageMaker<T> {
 	
 	private Page<T> result;
 	
-	private Pageable prevPage;
-	private Pageable nextPage;
+	private Pageable prevPage; //이전페이지
+	private Pageable nextPage; //다음페이지
 	
 	private int currentPageNum;
 	private int totalPageNum;
@@ -40,6 +40,7 @@ public class PageMaker<T> {
 	
 	private void calcPages() {
 		
+		//Math.ceil : 소수점 이하를 올림
 		int tempEndNum = (int)(Math.ceil(this.currentPageNum/10.0)*10);
 		int startNum = tempEndNum -9;
 		Pageable startPage = this.currentPage;
@@ -52,6 +53,8 @@ public class PageMaker<T> {
 		
 		log.info("tempEndNum: " + tempEndNum);
 		log.info("total:" + totalPageNum);
+		log.info("prevPage: " + prevPage);
+		log.info("startPage: " + startPage.getPageNumber());
 		
 		if(this.totalPageNum < tempEndNum) {
 			tempEndNum = this.totalPageNum;

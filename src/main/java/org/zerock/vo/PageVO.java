@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 public class PageVO {
 	
 	/*브라우저에서 전달되는 값은 페이지 번호(page)와 게시물의 수(size)만을 받도록 설계.
+	 * + 검색을 처리하기 위해 keyword와 type도 수집할 수 있도록 수정한다.
 	이때에도 일정 이상의 값이 들어올 수 없도록 제약을 둔다.
 	이후 정렬 방향이나, 정렬 기준이 되는 속성은 컨트로럴에서 지정한다.*/
 	
@@ -16,11 +17,30 @@ public class PageVO {
 	private int page;
 	private int size;
 	
+	private String keyword;
+	private String type;
+	
 	public PageVO() {
 		this.page = 1;
 		this.size = DEFAULT_SIZE;
 	}
 	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public int getPage() {
 		return page;
 	}
